@@ -376,8 +376,8 @@ const CartPage: React.FC<{
 
 const App: React.FC = () => {
   // Business logic hooks
-  const cart = useCart();
   const router = usePageRouter();
+  const cart = useCart(router.goToCart);
   const checkout = useCheckout();
   const { data, isLoading, error } = useStorefront();
 

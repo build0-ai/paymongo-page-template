@@ -2,6 +2,7 @@ import "./index.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
 import App from "./App.tsx";
 import Build0Badge from "./Build0Badge.tsx";
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root") as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <App />
       <Build0Badge />
+      <Toaster position="bottom-right" />
     </QueryClientProvider>
   </StrictMode>
 );

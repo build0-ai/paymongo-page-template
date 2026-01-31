@@ -37,10 +37,10 @@ When generating new App.tsx files:
    ```
 
 3. **Use Custom Hooks for Business Logic**:
-   - `useCart()` - Cart state and operations
-   - `useStorefront(STOREFRONT_ID)` - Data fetching with React Query
-   - `useCheckout(STOREFRONT_ID)` - Checkout mutation
-   - `usePageRouter()` - Page navigation state
+   - `usePageRouter()` - Page navigation state (call this first)
+   - `useCart(router.goToCart)` - Cart state and operations (pass goToCart for "View Cart" button in toast)
+   - `useStorefront()` - Data fetching with React Query
+   - `useCheckout()` - Checkout mutation
 
 4. **Use Generic Components**:
    - `DataWrapper` for loading/error state handling
@@ -49,9 +49,11 @@ When generating new App.tsx files:
 
 5. **Constraints**:
    - Only import from 'react', 'lucide-react', and local files
-   - Use Tailwind CSS for styling
+   - Use Tailwind CSS v4 for styling
    - Export default App component
    - Focus purely on UI composition and styling
+
+Note: Toast notifications are handled automatically by the hooks (addToCart, removeFromCart). No need to import or call `toast` in App.tsx.
 
 ## Example App.tsx Structure
 
@@ -60,10 +62,10 @@ const STOREFRONT_ID = "demo-storefront-123";
 
 const App: React.FC = () => {
   // Business logic hooks
-  const cart = useCart();
   const router = usePageRouter();
-  const checkout = useCheckout(STOREFRONT_ID);
-  const { data, isLoading, error } = useStorefront(STOREFRONT_ID);
+  const cart = useCart(router.goToCart);
+  const checkout = useCheckout();
+  const { data, isLoading, error } = useStorefront();
 
   // Extract data
   const storefront = data?.storefront || null;

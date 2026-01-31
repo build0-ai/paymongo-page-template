@@ -48,5 +48,8 @@ npm run dev          # Local dev server
 Only `src/App.tsx` is generated. It must:
 - Import hooks from `./hooks.tsx`
 - Import types from `./helpers.tsx`
-- Use Tailwind CSS for styling
+- Use Tailwind CSS for styling (v4 syntax)
 - Export default `App` component
+- Call hooks in this order: `usePageRouter()` first, then `useCart(router.goToCart)`
+
+Note: Toast notifications are handled automatically by the hooks. No need to import or call `toast` in App.tsx.

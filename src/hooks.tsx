@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   type Product,
   type CartItem,
@@ -17,7 +18,7 @@ import {
 import { STOREFRONT_ID } from "./constants.tsx";
 
 // Hook for managing cart state and operations
-export const useCart = () => {
+export const useCart = (onNavigateToCart?: () => void) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartQuantities, setCartQuantities] = useState<Record<string, number>>({});
 
@@ -29,10 +30,20 @@ export const useCart = () => {
     const quantity = cartQuantities[product.id] || 1;
     setCart((prevCart) => addProductToCart(prevCart, product, quantity));
     setCartQuantities((prev) => resetQuantityForProduct(prev, product.id));
+    toast.success(`${product.name} added to cart`, {
+      description: `Quantity: ${quantity}`,
+      action: onNavigateToCart
+        ? { label: "View Cart", onClick: onNavigateToCart }
+        : undefined,
+    });
   };
 
   const removeFromCart = (productId: string) => {
+    const item = cart.find((item) => item.id === productId);
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+    if (item) {
+      toast.success(`${item.name} removed from cart`);
+    }
   };
 
   const updateCartItemQuantity = (productId: string, newQuantity: number) => {
